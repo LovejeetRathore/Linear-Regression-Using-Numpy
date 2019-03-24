@@ -1,0 +1,46 @@
+import numpy as np
+import pandas as pd
+from statistics import mean
+import matplotlib.pyplot as plt
+c = pd.read_csv('C:/Users/lovej/Desktop/machine-learning-ex1/machine-learning-ex1/ex1/ex1data1.txt')
+data = pd.DataFrame(c)
+xs = data['X']
+ys = data['Y']
+plt.xlabel('Population of City in 10,000s')
+plt.ylabel('Profit in $10,000s')
+
+#mean() is inbuilt function of Statistics Library
+
+def best_fit_line_intercept(xs,y):
+    '''m = meanof(xy) - meanof(x)*meanof(y)/squareof(meanof(x)) - squareof(meanof(x))''' 
+    
+    m=(mean(xs)*mean(ys)-mean(xs*ys))/(mean(xs)**2-mean(xs*xs))
+    
+    '''y = mx + b To find b?
+       b = y - mx'''
+    b=mean(ys)-m*mean(xs)
+    return m,b
+
+def squared_error(ys_orig,ys_line):
+    return sum((ys_line - ys_orig) * (ys_line - ys_orig))
+
+def coefficient_of_determination(ys_orig,ys_line):
+    y_mean_line = mean(ys_orig)
+    squared_error_regr = squared_error(ys_orig, ys_line)
+    squared_error_y_mean = squared_error(ys_orig, y_mean_line)
+    return 1 - (squared_error_regr/squared_error_y_mean)
+
+m,b=best_fit_line_intercept(xs,ys)
+print(m,b)
+regression_line = [(m*x)+b for x in xs]
+
+r_squared=coefficient_of_determination(ys,regression_line)
+print(r_squared)
+plt.scatter(xs,ys)
+plt.plot(xs,regression_line)
+plt.show()
+
+
+'''Value of Slope: 1.1930336441895946 
+   Value of Intercept:-3.8957808783118635
+   Value of Coefficient of Determination:0.7020315537841398'''
