@@ -6,6 +6,10 @@ c = pd.read_csv('C:/Users/lovej/Desktop/machine-learning-ex1/machine-learning-ex
 data = pd.DataFrame(c)
 xs = data['X']
 ys = data['Y']
+
+xs = np.array(xs)
+ys = np.array(ys)
+
 plt.xlabel('Population of City in 10,000s')
 plt.ylabel('Profit in $10,000s')
 
